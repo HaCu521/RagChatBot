@@ -4,16 +4,18 @@ pdf="Modulhandbuch.pdf"
 
 
 def readpdf(filename):
+    tt=[]
     doc = pymupdf.open(filename)
     for i in range(len(doc)):
-        text=doc.get_page_text(i)
+        #text=doc.get_page_text(i)
         page=doc.load_page(i)
-        table=page.find_tables(strategy='lines')
-        if table is not (type (None)):
-            tt = table.textpage.extractText()
+        table_finder=page.find_tables(strategy='lines')
+        if table_finder.tables :
+            for t in table_finder.tables:
+                tt.append(t.extract())
 
-        #tp = tt.ex
+        #print(i)
         #print(i,text[:400])
-        print(tt)
+    print(tt)
 
 readpdf(pdf)
