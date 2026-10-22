@@ -20,6 +20,16 @@ def read_pdf(filename):
     doc.close()
     return pages
 
+def clean_text(pages):
+    for p in pages:
+        p['text']=re.sub(r'Seite \d+/\d+','',p['text'])
+        p['text']=re.sub(r'Modulhandbuch zum Studiengang Informatik \(B\.Sc\.\)','',p['text'])
+        p['text']=re.sub(r'Stand: 03\.02\.2023','',p['text'])
+        p['text']=re.sub(r'Frankfurt University of Applied Sciences – Fachbereich 2, Informatik und Ingenieurwissenschaften','',p['text'])
+    return pages
+
+def clean_table(pages):
+#
 
 pages = read_pdf(path)
 print(pages[2]["page"])
