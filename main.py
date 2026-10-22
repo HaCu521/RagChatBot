@@ -1,35 +1,25 @@
 import pymupdf
+import re
 
 path="data/Modulhandbuch_2023.pdf"
 
 
-def readpdf(filename):
-    # tt=[]
+def read_pdf(filename):
+    pages=[]
     doc = pymupdf.open(filename)
-    # for i in [2,5,17]:
-    #     text=doc.get_page_text(i)
-    #     print(text)
-    page = doc.load_page(18)
-    table_finder=page.find_tables(strategy='lines')
-    if table_finder.tables :
-        for t in table_finder.tables:
-            print(t.extract())
+    for i in range(len(doc)):
+        page_number=i+1
+        text = doc.get_page_text(i)
+        table = []
+        page = doc.load_page(i)
+        table_finder = page.find_tables()
+        if table_finder.tables:
+            for t in table_finder.tables:
+                table.append(t.extract())
+        pages.append({'page':page_number,'text':text,'table':table})
+    doc.close()
+    return pages
 
 
-
-
-    # #for i in range(len(doc)):
-    #     text=doc.get_page_text(i)
-    #     page=doc.load_page(i)
-    #     table_finder=page.find_tables(strategy='lines')
-    #     if table_finder.tables :
-    #         for t in table_finder.tables:
-    #             tt.append(t.extract())
-    #             print(tt)
-    #
-    #     print(i)
-    #     print(i,text[:400])
-    #     print(tt)
-    # doc.close()
-
-readpdf(path)
+pages = read_pdf(path)
+print(pages[2]["page"])
