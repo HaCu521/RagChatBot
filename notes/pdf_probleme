@@ -1,6 +1,4 @@
 #Text
-- Kopf-/Fußzeile auf jeder Seite ("Seite N/110 ...", "Stand: 03.02.2023 ...") -> per Regex entfernen; auf S. 18 stehen beide vor dem Inhalt
-- Getrennte Wörter ("Program-\nmierung") -> zusammenführen
 - Harte Zeilenumbrüche mitten im Satz -> Zeilen verbinden
 - Aufzählungspunkt "•" steht allein in einer Zeile -> mit der nächsten Zeile verbinden
 - S. 6 (Studienverlaufsplan): CP getrennt von den Modulnamen, Zuordnung geht verloren
