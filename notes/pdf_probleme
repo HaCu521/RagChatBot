@@ -1,6 +1,5 @@
 #Text
-- Harte Zeilenumbrüche mitten im Satz -> Zeilen verbinden
-- Aufzählungspunkt "•" steht allein in einer Zeile -> mit der nächsten Zeile verbinden
+
 - S. 6 (Studienverlaufsplan): CP getrennt von den Modulnamen, Zuordnung geht verloren
 - S. 18 (Unit): Beschriftung/Wert-Paare sind in Ordnung, aber die Unit läuft auf der nächsten Seite weiter
 - PyMuPDF zählt Seiten ab 0 -> Index + 1 speichern
