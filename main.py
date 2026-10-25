@@ -1,4 +1,3 @@
-
 import pdfplumber
 import re
 
@@ -17,7 +16,7 @@ def read_pdf(filename):
 def clean_text(pages):
     for p in pages:
         p['text']=re.sub(r'Seite \d+/\d+','',p['text'])
-        p['text']=re.sub(r'Mod  ulhandbuch zum Studiengang Informatik \(B\.Sc\.\)','',p['text'])
+        p['text']=re.sub(r'Modulhandbuch zum Studiengang Informatik \(B\.Sc\.\)','',p['text'])
         p['text']=re.sub(r'Stand: \d+\.\d+\.\d+','',p['text'])
         p['text']=re.sub(r'Frankfurt University of Applied Sciences – Fachbereich 2, Informatik und Ingenieurwissenschaften','',p['text'])
         p['text']=re.sub(r'-\n(?=[a-zäöüß])','',p['text'])
@@ -27,7 +26,15 @@ def clean_text(pages):
         p['text'] = p['text'].strip()
     return pages
 
-# def clean_table(pages):
+def clean_table(pages):
+    for p in pages:
+        for t in p['table']:
+            for r in t:
+                for i, c in enumerate(r):
+                    if c:
+                        r[i] = re.sub(r'\n(?!•)', ' ', c)
+            t[:] = [r for r in t if r[1]]
+    return pages
 
 
 pages = read_pdf(path)
