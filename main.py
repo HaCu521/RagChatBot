@@ -38,28 +38,46 @@ def clean_table(pages):
 
 
 def chunk_modules(pages):
-    chunks = []
-    modules=[]
+    chunks =[]
+    modules={'page':set(), 'text':[], 'table':[]}#quellen angabe spaeter im zahlenbereich, weil set keine zahlen mehrfach hat!!
 
     for p in pages:
-        for t in p['text'].split('\n'):
+        for t in p['text'].split('\n'): #split um Zeile fuer Zeile zu untersuchen
             if re.match(r'Module? \d+',t):
-                if modules:
+                if modules["text"]:
                     chunks.append(modules)
-                    modules=[]
+                    modules={'page':set(), 'text':[], 'table':[]}
 
-            modules.append({'page': p['page'], 'text': t, 'table': p['table']})
-    if modules:
+            modules['page'].add(p['page'])
+            modules['text'].append(t)
+        modules['table'].append(p['table'])#temporare loesung, tables verrutschen leicht bei seite, aber kp weil focus on text
+
+    if modules["text"]:
         chunks.append(modules)
             
     return chunks
+
+# def repair_chunk(chunks):
+#     for c in chunks:
+#         for t in c['text']:
+#             "\n".join(t)
+#     return chunks
+
+
+
 
 
 pages = read_pdf(path)
 pages= clean_text(pages)
 # print(pages[2]['text'])
-print(pages[20]['table'])
+# print(pages[20]['table'])
+
+
 chunks = chunk_modules(pages)
-print(len(chunks))
-for x in chunks[0]:
-    print(x['text'])
+c = chunks[2]
+
+print(c['text'])
+print(c['page'])
+print(c['table'])
+
+
