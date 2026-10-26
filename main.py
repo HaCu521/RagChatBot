@@ -37,33 +37,29 @@ def clean_table(pages):
     return pages
 
 
-def chunk_modules():
+def chunk_modules(pages):
     chunks = []
     modules=[]
+
     for p in pages:
-        for t in p['text']:
-            if re.match(r'(?=Modul \d+)',t):      
-                chunks.append(modules)            
-                modules=[]
+        for t in p['text'].split('\n'):
+            if re.match(r'Module? \d+',t):
+                if modules:
+                    chunks.append(modules)
+                    modules=[]
 
             modules.append({'page': p['page'], 'text': t, 'table': p['table']})
+    if modules:
+        chunks.append(modules)
             
-            
-            
-    
     return chunks
-
-
-
-
-
-
-
-
-
 
 
 pages = read_pdf(path)
 pages= clean_text(pages)
 # print(pages[2]['text'])
 print(pages[20]['table'])
+chunks = chunk_modules(pages)
+print(len(chunks))
+for x in chunks[0]:
+    print(x['text'])
