@@ -40,12 +40,18 @@ def clean_table(pages):
 def chunk_modules():
     chunks = []
     modules=[]
-    for i,p in enumerate(pages):
+    for p in pages:
         for t in p['text']:
-            modules.append({'page': p['page'], 'text': t, 'table': p['table']})
-            if re.match(r'Modul \d+'):
-                chunks.append(modules)
+            if re.match(r'(?=Modul \d+)',t):      
+                chunks.append(modules)            
                 modules=[]
+
+            modules.append({'page': p['page'], 'text': t, 'table': p['table']})
+            
+            
+            
+    
+    return chunks
 
 
 
