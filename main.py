@@ -1,5 +1,6 @@
 import pdfplumber
 import re
+import json
 
 path="data/Modulhandbuch_2023.pdf"
 
@@ -39,17 +40,17 @@ def clean_table(pages):
 
 def chunk_modules(pages):
     chunks =[]
-    modules={'page':set(), 'text':[], 'table':[]}#quellen angabe spaeter im zahlenbereich, weil set keine zahlen mehrfach hat!!
+    modules={'page':[], 'text':'', 'table':[]}#quellen angabe spaeter im zahlenbereich, weil set keine zahlen mehrfach hat!!
 
     for p in pages:
         for t in p['text'].split('\n'): #split um Zeile fuer Zeile zu untersuchen
             if re.match(r'Module? \d+',t):
                 if modules["text"]:
                     chunks.append(modules)
-                    modules={'page':set(), 'text':[], 'table':[]}
-
-            modules['page'].add(p['page'])
-            modules['text'].append(t)
+                    modules={'page':[], 'text':'','table':[]}
+            if p['page'] not in modules['page']:
+                modules['page'].append(p['page'])
+            modules['text']+=t
         modules['table'].append(p['table'])#temporare loesung, tables verrutschen leicht bei seite, aber kp weil focus on text
 
     if modules["text"]:
@@ -57,11 +58,10 @@ def chunk_modules(pages):
             
     return chunks
 
-# def repair_chunk(chunks):
-#     for c in chunks:
-#         for t in c['text']:
-#             "\n".join(t)
-#     return chunks
+def save_chunks(chunks):
+    with open(chunks,'data/','w','encoding="utf-8') as f:
+        json.dump(chunks, f,ensure_ascii=False,indent=4)
+
 
 
 
