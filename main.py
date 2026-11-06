@@ -2,14 +2,14 @@ import pdfplumber
 import re
 import json
 
-path="data/Modulhandbuch_2023.pdf"
 
+path="data/MHB_BA_Informatik_2012_Stand_2022-11-23.pdf"
 
 def read_pdf(filename):
     pages = []
     with pdfplumber.open(filename) as pdf:
         for page in pdf.pages:
-            text = page.extract_text()
+            text = page.extract_text() or ''
             table = page.extract_tables()
             pages.append({'page': page.page_number, 'text': text, 'table': table})
     return pages
@@ -44,13 +44,13 @@ def chunk_modules(pages):
 
     for p in pages:
         for t in p['text'].split('\n'): #split um Zeile fuer Zeile zu untersuchen
-            if re.match(r'Module? \d+',t):
+            if re.match(r'Module? \d+',t)  and not re.search(r'\.{3,}\s*\d+$', t):
                 if modules["text"]:
                     chunks.append(modules)
                     modules={'page':[], 'text':'','table':[]}
             if p['page'] not in modules['page']:
                 modules['page'].append(p['page'])
-            modules['text']+=t
+            modules['text']+=t+'\n'
         modules['table'].append(p['table'])#temporare loesung, tables verrutschen leicht bei seite, aber kp weil focus on text
 
     if modules["text"]:
@@ -58,26 +58,37 @@ def chunk_modules(pages):
             
     return chunks
 
+def table_to_text(tables):
+    lines = []
+    for page_tables in tables:
+        for t in page_tables:
+            for r in t:
+                lines.append(f'{r[0]}: {r[1]}')
+    return '\n'.join(lines) #list zu string
+
 def save_chunks(chunks):
-    with open(chunks,'data/','w','encoding="utf-8') as f:
+    with open('data/chunks.json','w',encoding='utf-8') as f:
         json.dump(chunks, f,ensure_ascii=False,indent=4)
-
-
-
 
 
 
 pages = read_pdf(path)
 pages= clean_text(pages)
-# print(pages[2]['text'])
-# print(pages[20]['table'])
+pages=clean_table(pages)
 
 
 chunks = chunk_modules(pages)
+for c in chunks:
+    c['table_text'] = table_to_text(c['table'])
+    c['dokument'] = 'Modulhandbuch Informatik (B.Sc.)'  #Metadaten für Quellenangabe
+    c['fassung'] = 'PO 2012, Stand 23.11.2022'
+    c['modul'] = c['text'].split('\n')[0]               #erste zeile als modulname
+save_chunks(chunks)
 c = chunks[2]
-
+print(len(chunks))
 print(c['text'])
 print(c['page'])
 print(c['table'])
-
+print(c['table_text'])
+print(c['modul'], '|', c['fassung'], '|', c['page'])  # NEU: Metadaten prüfen
 
