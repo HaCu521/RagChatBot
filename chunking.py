@@ -9,8 +9,17 @@ def read_pdf(filename):
     pages = []
     with pdfplumber.open(filename) as pdf:
         for page in pdf.pages:
-            text = page.extract_text() or ''
-            table = page.extract_tables()
+            found = page.find_tables()
+            table = [t.extract() for t in found]
+            lines = []
+            for l in page.extract_text_lines():
+                in_table = any(t.bbox[1] <= l['top'] <= t.bbox[3] for t in found)
+                if not in_table or re.match(r'Module? \d+', l['text']):  #tabellentext raus,ueberschrift bleibt
+                    lines.append((l['top'], l['text']))
+            for i, t in enumerate(found):
+                lines.append((t.bbox[3], f'TABLE_{i}'))  #platzhalter an position der tabelle
+            lines.sort()
+            text = '\n'.join(l[1] for l in lines)
             pages.append({'page': page.page_number, 'text': text, 'table': table})
     return pages
 
@@ -50,8 +59,11 @@ def chunk_modules(pages):
                     modules={'page':[], 'text':'','table':[]}
             if p['page'] not in modules['page']:
                 modules['page'].append(p['page'])
+            if t.startswith('TABLE_'):
+                    modules['table'].append(p['table'][int(t[6:])])
+                    continue
             modules['text']+=t+'\n'
-        modules['table'].append(p['table'])#temporare loesung, tables verrutschen leicht bei seite, aber kp weil focus on text
+
 
     if modules["text"]:
         chunks.append(modules)
@@ -60,10 +72,9 @@ def chunk_modules(pages):
 
 def table_to_text(tables):
     lines = []
-    for page_tables in tables:
-        for t in page_tables:
-            for r in t:
-                lines.append(f'{r[0]}: {r[1]}')
+    for t in tables:
+        for r in t:
+            lines.append(f'{r[0]}: {r[1]}')
     return '\n'.join(lines) #list zu string
 
 def save_chunks(chunks):
@@ -90,5 +101,5 @@ print(c['text'])
 print(c['page'])
 print(c['table'])
 print(c['table_text'])
-print(c['modul'], '|', c['fassung'], '|', c['page'])  # NEU: Metadaten prüfen
+print(c['modul'], '|', c['fassung'], '|', c['page'])  #Metadaten prüfen
 
