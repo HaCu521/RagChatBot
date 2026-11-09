@@ -28,5 +28,7 @@ for i, c in enumerate(chunks):
     if 'Datenbank' in c['modul'] or tokens > 512:
         print(i, tokens, c['modul'][:60])
 
-question='Wie viel cp hat datenbank'
+question='Wie viel cp hat databases'
 search(question)
+q='wie viel cp hat algorithmen und datenstrukturen'
+search(q)

@@ -49,20 +49,26 @@ def clean_table(pages):
 
 def chunk_modules(pages):
     chunks =[]
-    modules={'page':[], 'text':'', 'table':[]}#quellen angabe spaeter im zahlenbereich, weil set keine zahlen mehrfach hat!!
+    current_modul = 'Modulhandbuch Übersicht'
+    modules = {'page': [], 'text': '', 'table': [], 'modul': current_modul}#quellen angabe spaeter im zahlenbereich, weil set keine zahlen mehrfach hat!!
 
     for p in pages:
         for t in p['text'].split('\n'): #split um Zeile fuer Zeile zu untersuchen
-            if re.match(r'Module? \d+',t)  and not re.search(r'\.{3,}\s*\d+$', t):
-                if modules["text"]:
-                    chunks.append(modules)
-                    modules={'page':[], 'text':'','table':[]}
-            if p['page'] not in modules['page']:
-                modules['page'].append(p['page'])
-            if t.startswith('TABLE_'):
-                    modules['table'].append(p['table'][int(t[6:])])
-                    continue
-            modules['text']+=t+'\n'
+                is_module= re.match(r'Module? \d+',t)  and not re.search(r'\.{3,}\s*\d+$', t)
+                is_unit=re.match(r'Unitbeschreibung|Unit description|Description of the unit', t)
+                if is_module:
+                    current_modul=t
+
+                if is_unit or is_module:
+                    if modules["text"]:
+                        chunks.append(modules)
+                        modules={'page':[], 'text':'','table':[],'modul':current_modul}
+                if p['page'] not in modules['page']:
+                    modules['page'].append(p['page'])
+                if t.startswith('TABLE_'):
+                        modules['table'].append(p['table'][int(t[6:])])
+                        continue
+                modules['text']+=t+'\n'
 
 
     if modules["text"]:
@@ -93,7 +99,6 @@ for c in chunks:
     c['table_text'] = table_to_text(c['table'])
     c['dokument'] = 'Modulhandbuch Informatik (B.Sc.)'  #Metadaten für Quellenangabe
     c['fassung'] = 'PO 2012, Stand 23.11.2022'
-    c['modul'] = c['text'].split('\n')[0]               #erste zeile als modulname
 save_chunks(chunks)
 c = chunks[2]
 print(len(chunks))
