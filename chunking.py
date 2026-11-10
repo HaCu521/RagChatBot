@@ -83,6 +83,20 @@ def table_to_text(tables):
             lines.append(f'{r[0]}: {r[1]}')
     return '\n'.join(lines) #list zu string
 
+def split_chunks(chunks, max_words=250, overlap=20):
+    result = []
+    for c in chunks:
+        words = (c['text'] + '\n' + c['table_text']).split()
+        if len(words) <= max_words:
+            result.append(c)
+            continue
+        for start in range(0, len(words), max_words - overlap):
+            part = dict(c)
+            part['text'] = ' '.join(words[start:start + max_words])
+            part['table_text'] = ''
+            result.append(part)
+    return result
+
 def save_chunks(chunks):
     with open('data/chunks.json','w',encoding='utf-8') as f:
         json.dump(chunks, f,ensure_ascii=False,indent=4)
@@ -95,10 +109,14 @@ pages=clean_table(pages)
 
 
 chunks = chunk_modules(pages)
+
+# Metadaten für Quellenangabe
 for c in chunks:
     c['table_text'] = table_to_text(c['table'])
-    c['dokument'] = 'Modulhandbuch Informatik (B.Sc.)'  #Metadaten für Quellenangabe
-    c['fassung'] = 'PO 2012, Stand 23.11.2022'
+    c['dokument'] = 'Modulhandbuch Informatik (B.Sc.)'
+    c['fassung'] = 'PO 2012, Stand 23.11.2022'#
+
+chunks=split_chunks(chunks,250,20)
 save_chunks(chunks)
 c = chunks[2]
 print(len(chunks))
