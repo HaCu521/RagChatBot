@@ -8,7 +8,7 @@ with open('data/chunks.json', encoding='utf-8') as f:
 model = SentenceTransformer('intfloat/multilingual-e5-small')
 
 
-texts = ['passage: ' + c['text'] + '\n' + c['table_text'] for c in chunks]
+texts = ['passage: ' + c['modul'] +  c['text'] + '\n' + c['table_text'] for c in chunks]
 embeddings = model.encode(texts, normalize_embeddings=True)
 np.save('data/embeddings.npy', embeddings)
 
@@ -25,10 +25,11 @@ for i, c in enumerate(chunks):
     result = model.tokenizer(text)
     ids = result['input_ids']
     tokens = len(ids)
-    if 'Datenbank' in c['modul'] or tokens > 512:
+    if tokens > 512:
         print(i, tokens, c['modul'][:60])
 
-question='Wie viel cp hat databases'
-search(question)
-q='wie viel cp hat algorithmen und datenstrukturen'
-search(q)
+
+# question='Wie viel cp hat databases'
+# search(question)
+# q='wie viel cp hat algorithmen und datenstrukturen'
+# search(q)

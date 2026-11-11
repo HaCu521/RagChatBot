@@ -116,7 +116,7 @@ for c in chunks:
     c['dokument'] = 'Modulhandbuch Informatik (B.Sc.)'
     c['fassung'] = 'PO 2012, Stand 23.11.2022'#
 
-chunks=split_chunks(chunks,250,20)
+chunks=split_chunks(chunks,210,20)
 save_chunks(chunks)
 c = chunks[2]
 print(len(chunks))
