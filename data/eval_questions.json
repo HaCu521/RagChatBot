@@ -1,0 +1,41 @@
+{
+    "tests": [
+        ["Wie viele CP hat Datenbanken?", ["Modul 14 Databases", "Modulhandbuch Übersicht"]],
+        ["Wie lange dauert die Klausur in Algebra?", ["Modul 1 Algebra", "Modulhandbuch Übersicht"]],
+        ["Wer ist für IT-Sicherheit zuständig?", ["Module 19 IT Security"]],
+        ["In welchem Semester belege ich Statistik?", ["Modul 12 Statistics", "Modulhandbuch Übersicht"]],
+        ["Welche Voraussetzungen brauche ich für das Informatik-Projekt?", ["Modul 25 Informatik Projekt"]],
+        ["Lerne ich SQL im Studium?", ["Modul 14 Databases"]],
+        ["Wo lerne ich etwas über Turingmaschinen?", ["Modul 10 Theoretische Informatik, Automaten und formale Sprachen"]],
+        ["Wie lange dauert die Praxisphase?", ["Modul 28 Praxisphase"]],
+        ["In welchem Modul geht es um die DSGVO und Datenschutz?", ["Modul 23 Recht und Datenschutz"]],
+        ["Muss ich für Operating Systems vorher etwas bestanden haben?", ["Module 16 Operating Systems"]],
+        ["Welche Programmiersprache lerne ich im ersten Semester?", ["Modul 4 Einführung in die Programmierung mit C und Objektorientierte"]],
+        ["Wie viele CP bekomme ich für die Bachelorarbeit?", ["Modul 29 Bachelor-Arbeit mit Kolloquium", "Modulhandbuch Übersicht"]],
+        ["In welcher Sprache wird Computer Networks unterrichtet?", ["Module 15 Computer Networks", "Modulhandbuch Übersicht"]],
+        ["Wer koordiniert das Modul Analysis?", ["Modul 2 Analysis"]],
+        ["Lerne ich im Studium etwas über Graphentheorie?", ["Modul 7 Diskrete Mathematik"]],
+        ["Wo programmiere ich in Assembler?", ["Modul 8 Rechnerarchitekturen"]],
+        ["Welche Prüfungsform hat Software Engineering Analysis?", ["Modul 11 Software Engineering – Analysis", "Modulhandbuch Übersicht"]],
+        ["Mit welcher Software arbeite ich in Statistik?", ["Modul 12 Statistics"]],
+        ["Was muss ich vor Distributed Systems abgeschlossen haben?", ["Modul 20 Distributed Systems"]],
+        ["Lerne ich etwas über Firewalls und VPNs?", ["Module 19 IT Security"]],
+        ["How many credits is the Databases module?", ["Modul 14 Databases", "Modulhandbuch Übersicht"]],
+        ["Do I learn about Turing machines?", ["Modul 10 Theoretische Informatik, Automaten und formale Sprachen"]],
+        ["Who is responsible for the Algebra module?", ["Modul 1 Algebra"]],
+        ["Is there an exam in Recht und Datenschutz?", ["Modul 23 Recht und Datenschutz", "Modulhandbuch Übersicht"]],
+        ["What do I learn in Operating Systems?", ["Module 16 Operating Systems"]]
+    ],
+    "final_tests": [
+        ["Wo geht es um Scheduling und Echtzeitbetriebssysteme?", ["Modul 18 Real-Time Systems"]],
+        ["Wie viele CP brauche ich, um mit der Praxisphase anzufangen?", ["Modul 28 Praxisphase"]],
+        ["Was ist das Wahlpflichtmodul?", ["Modul 26 Wahlpflichtmodul"]],
+        ["Wie läuft die Prüfung in Aktuelle Themen der Informatik ab?", ["Modul 24 Aktuelle Themen der Informatik", "Modulhandbuch Übersicht"]],
+        ["Wird im Informatik-Projekt mit Scrum gearbeitet?", ["Modul 25 Informatik Projekt"]],
+        ["Gibt es im Studium einen Englischkurs?", ["Modul 6 English", "Modulhandbuch Übersicht"]],
+        ["Was mache ich im Modul Programming Exercises?", ["Modul 22 Programming Exercises"]],
+        ["Wie lange dauert der erste Praxisabschnitt im dualen Studium?", ["Modul 30-1 Betrieblicher Studienabschnitt I"]],
+        ["Lerne ich etwas über TCP/IP und das OSI-Modell?", ["Module 15 Computer Networks"]],
+        ["Was sind die Ziele des Informatik-Studiengangs?", ["Modulhandbuch Übersicht"]]
+    ]
+}
