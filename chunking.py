@@ -79,8 +79,19 @@ def chunk_modules(pages):
 def table_to_text(tables):
     lines = []
     for t in tables:
-        for r in t:
-            lines.append(f'{r[0]}: {r[1]}')
+        if not t:
+            continue
+        header = t[0]
+        if header[0] == 'Nr.':
+            for r in t[1:]:
+                cells = []
+                for i in range(len(r)):
+                    if r[i]:
+                        cells.append(header[i] + ': ' + r[i])
+                lines.append(', '.join(cells))
+        else:
+            for r in t:
+                lines.append(' | '.join(c for c in r if c))
     return '\n'.join(lines) #list zu string
 
 def split_chunks(chunks, max_words=250, overlap=20):
