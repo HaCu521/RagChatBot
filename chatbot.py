@@ -1,8 +1,8 @@
 import ollama
-from embedding import search, chunks
+from embedding import search_db, chunks
 
 def ask_llm(question):
-    found = search(question, k=3, dedup=False)
+    found = search_db(question, k=3, dedup=False)
     top = found[0]['modul']
     if top != 'Modulhandbuch Übersicht':
         #bestes modul komplett für mehr kontext

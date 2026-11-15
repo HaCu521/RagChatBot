@@ -19,3 +19,13 @@ with psycopg.connect("host=localhost port=5432 dbname=modulhandbuch user=postgre
                 embedding vector({DIM})
             )
         """)
+        for i, c in enumerate(chunks):
+            vec = '[' + ','.join(str(x) for x in embeddings[i]) + ']'  #vektor als pgvector-text
+            cur.execute(
+                "INSERT INTO chunks (id, modul, page, text, table_text, dokument, fassung, embedding) "
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                (i, c['modul'], str(c['page']), c['text'], c['table_text'], c['dokument'], c['fassung'], vec)
+            )
+        conn.commit()
+
+        print('fertig:', len(chunks), 'chunks geladen')

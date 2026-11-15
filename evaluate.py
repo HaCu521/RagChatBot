@@ -1,5 +1,5 @@
 import json
-from embedding import search, chunks, texts, model
+from embedding import search_db, chunks, texts, model
 
 
 for i, c in enumerate(chunks):
@@ -20,7 +20,7 @@ final_tests = eval_data['final_tests']
 
 hits = 0
 for question, expected in tests:
-    found = [c['modul'] for c in search(question)]
+    found = [c['modul'] for c in search_db(question)]
     for f in found:
         if f in expected:
             hits += 1
@@ -31,7 +31,7 @@ print(f'Hitrate wenn wenn die in den ersten 3 chunks gesucht werden:{hits/len(te
 
 hits = 0
 for question, expected in final_tests:
-    found = [c['modul'] for c in search(question)]
+    found = [c['modul'] for c in search_db(question)]
     for f in found:
         if f in expected:
             hits += 1
