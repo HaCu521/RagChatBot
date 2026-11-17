@@ -1,0 +1,3 @@
+Backend: uvicorn main:app --reload
+Frontend: streamlit run frontend.py
+DB: docker start mhb-db
