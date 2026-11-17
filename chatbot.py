@@ -35,9 +35,9 @@ Excerpts:
 #     print(ask_llm(question))
 
 import json
-
-eval_data = json.load(open('data/eval_questions.json', encoding='utf-8'))
-
-for question, expected in eval_data['tests'][:5]:
-    print('\nFrage:', question)
-    print(ask_llm(question))
+if __name__ == '__main__':
+    import json
+    eval_data = json.load(open('data/eval_questions.json', encoding='utf-8'))
+    for question, expected in eval_data['tests'][:5]:
+        print('\nFrage:', question)
+        print(ask_llm(question))
