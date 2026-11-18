@@ -34,7 +34,7 @@ Excerpts:
 #         break
 #     print(ask_llm(question))
 
-import json
+
 if __name__ == '__main__':
     import json
     eval_data = json.load(open('data/eval_questions.json', encoding='utf-8'))
